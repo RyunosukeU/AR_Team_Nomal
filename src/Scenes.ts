@@ -1,5 +1,25 @@
 import { SceneManager } from "./SceneManager";
 import * as DOM from "./DOM";
+import { Data } from "ejs";
+import QuestionData from "./json/data.json";
+
+// interface Question {
+//     kanji: string;
+//     handtrack: Handtrack;
+// }
+
+// interface Handtrack {
+//     strokes: Array<Stroke>;
+// }
+
+// interface Stroke {
+//     points: Array<Point>;
+// }
+
+// interface Point {
+//     x: number;
+//     y: number;
+// }
 
 export abstract class SceneBase {
     public sceneManager?: SceneManager;
@@ -66,6 +86,9 @@ class SelectionScene extends SceneBase {
 
 class GameScene extends SceneBase {
     private timeRemaining : number = 0;
+    private questions = QuestionData.questions[Number(this.stage_id.substring(5)) - 1].data;
+    private questionIndex : number = 0;
+    private questionLength : number = -1;
     private timer? : NodeJS.Timer;
     constructor(
         private stage_id : string
@@ -75,12 +98,15 @@ class GameScene extends SceneBase {
 
     public render(): void {
         this.timeRemaining = 5;
+        this.questionLength = this.questions.length;
 
         //第２引数にHTMLElementの配列を指定すると入れ子構造にできる
         const div = DOM.make('div',
             [
                 DOM.make('h1', `Stage ${this.stage_id}`),
+                DOM.make('h2', `No.${this.questionIndex+1}`, {id:"no"}),
                 DOM.make('p', "time remaining", {id:"time"}),
+                DOM.make('p', `お題： ${this.questions[this.questionIndex].kanji}`, {id:"kanji"}),
                 DOM.make('h1', 'back', {
                     onclick:()=> {this.transitTo(new SelectionScene);}
                 })
@@ -93,11 +119,19 @@ class GameScene extends SceneBase {
     }
 
     private ontimer(): void {
-        console.log(this.timeRemaining);
+        //console.log(this.timeRemaining);
         this.timeRemaining -= 1;
         DOM.id("time").innerHTML = `${this.timeRemaining} seconds left`;
 
         if(this.timeRemaining === 0) {
+            this.timeRemaining = 4;
+            this.questionIndex += 1;
+            DOM.id("no").innerHTML = `No.${this.questionIndex+1}`;
+            DOM.id("kanji").innerHTML = `お題： ${this.questions[this.questionIndex].kanji}`;
+            console.log(this.questionIndex);
+        }
+
+        if(this.questionIndex === this.questionLength) {
             clearInterval(this.timer);
             this.transitTo(new EndScene(this));
         }

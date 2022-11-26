@@ -1,0 +1,12 @@
+{
+    "questions": [
+        {
+            "id": "stage1",
+            "data": [{"kanji": "机"}, {"kanji": "私"}]
+        },
+        {
+            "id": "stage2",
+            "data" :[{"kanji": "高"}, {"kanji": "遊"}]
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 import { SceneManager } from "./SceneManager";
 import * as DOM from "./DOM";
 import { Data } from "ejs";
-import QuestionData from "./json/data.json";
+import QuestionData from "./json/data.json";    // jsonから問題群をインポート
 
 // interface Question {
 //     kanji: string;
@@ -60,10 +60,7 @@ export class StartScene extends SceneBase {
  
 class SelectionScene extends SceneBase {
     public render(): void {
-        const stages = [
-            {name:"1", id:"stage1"},
-            {name:"2", id:"stage2"}
-        ];
+        const stages = QuestionData.questions;
         //ejs(https://ejs.co/#docs)によるテンプレートを使えるようするヘルパ
         //http getするのでpromiseが返る．
         DOM.template("./hello.ejs", {stages:stages}).then((dom)=>{
@@ -71,8 +68,8 @@ class SelectionScene extends SceneBase {
 
             //onclickイベントハンドラを設定
             for(const stage of stages) {
-                DOM.id(stage.id).onclick = (e) => {
-                    console.log(`select stage ${stage.id}`);
+                DOM.id(stage.name).onclick = (e) => {
+                    console.log(`select ${stage.name}`);
                     this.transitTo(new GameScene(stage.id));
                 }
             }
@@ -86,19 +83,19 @@ class SelectionScene extends SceneBase {
 
 class GameScene extends SceneBase {
     private timeRemaining : number = 0;
-    private questions = QuestionData.questions[Number(this.stage_id.substring(5)) - 1].data;
-    private questionIndex : number = 0;
-    private questionLength : number = -1;
+    private questions = QuestionData.questions[this.stage_id]; // ステージid(番号)から問題を取得
+    private questionIndex : number = 0; // 問題用インデックス
+    private questionLength : number = -1;   // 問題数
     private timer? : NodeJS.Timer;
     constructor(
-        private stage_id : string
+        private stage_id : number
     ){
         super();
     }
 
     public render(): void {
         this.timeRemaining = 5;
-        this.questionLength = this.questions.length;
+        this.questionLength = this.questions.data.length;   //問題数を取得
 
         //第２引数にHTMLElementの配列を指定すると入れ子構造にできる
         const div = DOM.make('div',
@@ -106,7 +103,7 @@ class GameScene extends SceneBase {
                 DOM.make('h1', `Stage ${this.stage_id}`),
                 DOM.make('h2', `No.${this.questionIndex+1}`, {id:"no"}),
                 DOM.make('p', "time remaining", {id:"time"}),
-                DOM.make('p', `お題： ${this.questions[this.questionIndex].kanji}`, {id:"kanji"}),
+                DOM.make('p', `お題： ${this.questions.data[this.questionIndex].kanji}`, {id:"kanji"}),
                 DOM.make('h1', 'back', {
                     onclick:()=> {this.transitTo(new SelectionScene);}
                 })
@@ -119,21 +116,23 @@ class GameScene extends SceneBase {
     }
 
     private ontimer(): void {
-        //console.log(this.timeRemaining);
         this.timeRemaining -= 1;
         DOM.id("time").innerHTML = `${this.timeRemaining} seconds left`;
 
         if(this.timeRemaining === 0) {
-            this.timeRemaining = 4;
-            this.questionIndex += 1;
-            DOM.id("no").innerHTML = `No.${this.questionIndex+1}`;
-            DOM.id("kanji").innerHTML = `お題： ${this.questions[this.questionIndex].kanji}`;
-            console.log(this.questionIndex);
-        }
+            this.timeRemaining = 5;
+            this.questionIndex += 1;    //次の問題へ移行
 
-        if(this.questionIndex === this.questionLength) {
-            clearInterval(this.timer);
-            this.transitTo(new EndScene(this));
+            //問題が最後まで進んだら
+            if(this.questionIndex === this.questionLength) {
+                clearInterval(this.timer);
+                this.transitTo(new EndScene(this));
+            }
+            else {
+                //そうでない間は問題をすすめる
+                DOM.id("no").innerHTML = `No.${this.questionIndex+1}`;
+                DOM.id("kanji").innerHTML = `お題： ${this.questions.data[this.questionIndex].kanji}`;
+            }
         }
     }
 }

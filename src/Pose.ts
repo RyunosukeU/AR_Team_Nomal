@@ -1,8 +1,8 @@
 import {Point} from './Point'
 export class Pose {
-    public arr: Point[];
+    public pose: Point[];
 
-    constructor(arr:Point[]){
-        this.arr = arr;
+    constructor(pose:Point[]){
+        this.pose = pose;
     }
 }

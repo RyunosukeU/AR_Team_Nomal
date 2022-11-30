@@ -7,7 +7,7 @@ const video = document.getElementById('input') as HTMLVideoElement;
     const ctx = canvas.getContext('2d');
     //関連ファイルの読み込み
     const config = {
-      locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+      locateFile: (file: any) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
     };
     const hands = new Hands(config);
 

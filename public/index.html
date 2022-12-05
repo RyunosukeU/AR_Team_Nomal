@@ -1,9 +1,17 @@
-<html><head><script defer src="bundle.js"></script></head>
-    <body>
-        <body>
-            <div id="Scene">
-                main
-            </div>
-        </body>
-    </body>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <div class="container">
+    <!-- Webカメラの映像（入力） -->
+    <video id="input"></video>
+    <!--  認識した手の形状を可視化した映像（出力）  -->
+    <canvas id="output" width="600" height="400"></canvas>
+  </div>
+  <button id="start">start</button>
+  <button id="stop">stop</button>
+  <script src="./bundle.js" type="module"></script>
+</body>
 </html>

@@ -1,7 +1,7 @@
 import { SceneManager } from "./SceneManager";
 import * as DOM from "./DOM";
-import { SelectionScene } from "./SelectionScene";
 import { GameScene } from "./GameScene";
+import { StartScene } from "./Start";
 
 interface Question {
     kanji: string;
@@ -23,8 +23,7 @@ interface Point {
 
 export abstract class SceneBase {
     public sceneManager?: SceneManager;
-    constructor() {
-    }
+ 
     set manager(manager: SceneManager) {
         this.sceneManager = manager;
     }
@@ -45,42 +44,6 @@ export abstract class SceneBase {
     abstract render(): void;
 }
 
-export class StartScene extends SceneBase {
-    public render(): void {
-        //HTMLを簡単に作成するためのヘルパ関数
-        const start = DOM.make("h1", "click to start!",
-            { //id, className, onclickを指定可能
-                onclick:()=>{
-                    this.transitTo(new SelectionScene());                                
-                }
-            });
-        this.replaceElement(start);
-    }
-}
- 
-
-export class EndScene extends SceneBase {
-    constructor(
-        private prevScene : SceneBase,
-        private stage_id : string
-    ){
-        super();
-    }
-    public render(): void {
-        const div = DOM.make('div',
-            [
-                DOM.make('h1', 'Game Over!'),
-                DOM.make('h2', 'retry', {
-                    onclick:()=> {this.transitTo(new GameScene(this.stage_id));}
-                }),
-                DOM.make('h2', 'back to the title', {
-                    onclick:()=> {this.transitTo(new StartScene);}
-                })
-            ]        
-        );
-        this.replaceElement(div);
-    }
-}
 
 class QuestionOfStage {
     constructor(

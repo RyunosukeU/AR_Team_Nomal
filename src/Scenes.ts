@@ -1,6 +1,5 @@
 import { SceneManager } from "./SceneManager";
 import * as DOM from "./DOM";
-import { Data } from "ejs";
 import QuestionData from "./json/data.json";    // jsonから問題群をインポート
 
 interface Question {
@@ -170,3 +169,49 @@ class EndScene extends SceneBase {
         this.replaceElement(div);
     }
 }
+
+class QuestionOfStage {
+    constructor(
+    title : string,
+    questions : Question[]
+    ){}
+   }
+   
+class Point_ {
+    constructor(
+    x:number,
+    y:number
+    ){}
+}
+   
+class Stroke_ {
+    points : Point_[] = [];
+    }
+
+class Question {
+    constructor(
+    strokes : Stroke_[],
+    kanji : string
+    ){}
+    }
+   
+const statge_of_questions : QuestionOfStage[] = [];
+
+let title = "１年生";
+
+const questions : Question[] = [];
+
+const strokes_of_kan : Stroke_[] = [];
+
+questions.push(
+new Question(strokes_of_kan, "漢")
+)
+
+statge_of_questions.push(
+new QuestionOfStage(
+title, questions 
+)
+);
+
+const json : string = JSON.stringify(statge_of_questions);
+console.log(json);

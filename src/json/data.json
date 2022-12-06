@@ -3,12 +3,32 @@
         {
             "id": "1",
             "name": "stage1",
-            "data": [{"kanji": "机"}, {"kanji": "私"}]
+            "data": [{"kanji": "handTrackData"}]
         },
         {
             "id": "2",
             "name": "stage2",
-            "data" :[{"kanji": "高"}, {"kanji": "遊"}]
+            "data" :[{"kanji": "handTrackData"}]
+        },
+        {
+            "id": "3",
+            "name": "stage3",
+            "data" :[{"kanji": "handTrackData"}]
+        },
+        {
+            "id": "4",
+            "name": "stage4",
+            "data" :[{"kanji": "handTrackData"}]
+        },
+        {
+            "id": "5",
+            "name": "stage5",
+            "data" :[{"kanji": "handTrackData"}]
+        },
+        {
+            "id": "6",
+            "name": "stage6",
+            "data" :[{"kanji": "handTrackData"}]
         }
     ]
 }

@@ -1,25 +1,5 @@
 import { SceneManager } from "./SceneManager";
 import * as DOM from "./DOM";
-import { GameScene } from "./GameScene";
-import { StartScene } from "./Start";
-
-interface Question {
-    kanji: string;
-    handtrack: Handtrack;
-}
-
-interface Handtrack {
-    strokes: Array<Stroke>;
-}
-
-interface Stroke {
-    points: Array<Point>;
-}
-
-interface Point {
-    x: number;
-    y: number;
-}
 
 export abstract class SceneBase {
     public sceneManager?: SceneManager;

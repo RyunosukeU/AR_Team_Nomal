@@ -34,32 +34,23 @@ export class GameScene extends SceneBase {
       this.timeRemaining = 30;    //制限時間の設定
       this.questionLength = this.questions.data.length;   //問題数を取得
 
-      //第２引数にHTMLElementの配列を指定すると入れ子構造にできる
-      const div = DOM.make('div',
-          [
-              DOM.make('h1', `Stage ${this.stage_id}`),
-              DOM.make('h2', `No.${this.questionIndex+1}`, {id:"no"}),
-              DOM.make('p', "time remaining", {id:"time"}),
-              DOM.make('p', `スコア：${this.score}`, {id:"score"}),
-              DOM.make('p', `お題： ${this.questions.data[this.questionIndex].kanji}`, {id:"kanji"}),
-              DOM.make('h1', '', {id:"state"}),
-              DOM.make('h1', 'カメラ入力部', {
-                  onclick:()=>{this.game(this.questions.data[this.questionIndex].kanji);}
-              }),
-              DOM.make('h1', 'back', {
-                  onclick:()=> {this.transitTo(new SelectionScene);}
-              })
-          ]        
-      );
-      this.replaceElement(div);
+      DOM.template("./templates/game.ejs", {
+        name: `Stage ${this.stage_id}`,
+        score: this.score,
+        kanji: this.questions.data[this.questionIndex].kanji
+      }).then((dom)=>{
+        this.replaceElement(dom);
 
-      //コールバックとしてメソッドを指定する場合以下のようにbindしないといけないらしい
-      this.timer = setInterval(this.ontimer.bind(this), 1000);
+        DOM.id("monitor").onclick = ()=>{this.game(this.questions.data[this.questionIndex].kanji);};
+        DOM.id("back").onclick = ()=>{this.transitTo(new SelectionScene);};
+        //コールバックとしてメソッドを指定する場合以下のようにbindしないといけないらしい
+        this.timer = setInterval(this.ontimer.bind(this), 1000);
+      })
   }
 
   private ontimer(): void {
       this.timeRemaining -= 1;
-      DOM.id("time").innerHTML = `${this.timeRemaining} seconds left`;
+      DOM.id("time").innerHTML = `制限時間： ${this.timeRemaining}秒`;
       DOM.id("state").innerHTML = '';
 
       //残り時間がなくなる、または問題が最後まで進む
@@ -82,7 +73,6 @@ export class GameScene extends SceneBase {
 
           //UIの更新
           DOM.id("state").innerHTML = '○';
-          DOM.id("no").innerHTML = `No.${this.questionIndex+1}`;
           DOM.id("kanji").innerHTML = `お題： ${this.questions.data[this.questionIndex].kanji}`;
           DOM.id("score").innerHTML = `スコア：${this.score}`
       }

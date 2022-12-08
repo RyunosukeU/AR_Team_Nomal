@@ -1,7 +1,7 @@
-import { SceneBase } from "./Scenes";
-import * as DOM from "./DOM";
+import { SceneBase } from "./SceneBase";
+import * as DOM from "../DOM";
 import { GameScene } from "./GameScene";
-import { StartScene } from "./Start";
+import { StartScene } from "./StartScene";
 
 
 export class EndScene extends SceneBase {

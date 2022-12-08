@@ -1,8 +1,8 @@
-import { SceneBase } from "./Scenes";
-import * as DOM from "./DOM";
-import QuestionData from "./json/data.json";    // jsonから問題群をインポート
+import { SceneBase } from "./SceneBase";
+import * as DOM from "../DOM";
+import QuestionData from "../json/data.json";    // jsonから問題群をインポート
 import { SelectionScene } from "./SelectionScene";
-import { Judge } from "./Judge";
+import { Judge } from "../Judge";
 import { EndScene } from "./EndScene";
 
 export class GameScene extends SceneBase {

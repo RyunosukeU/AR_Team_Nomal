@@ -1,6 +1,6 @@
-import { SceneBase } from "./Scenes";
-import * as DOM from "./DOM";
-import QuestionData from "./json/data.json";    // jsonから問題群をインポート
+import { SceneBase } from "./SceneBase";
+import * as DOM from "../DOM";
+import QuestionData from "../json/data.json";    // jsonから問題群をインポート
 import { GameScene } from "./GameScene";
 
 export class SelectionScene extends SceneBase {
@@ -8,7 +8,7 @@ export class SelectionScene extends SceneBase {
       const stages = QuestionData.questions;
       //ejs(https://ejs.co/#docs)によるテンプレートを使えるようするヘルパ
       //http getするのでpromiseが返る．
-      DOM.template("./hello.ejs", {stages:stages}).then((dom)=>{
+      DOM.template("./templates/selection.ejs", {stages:stages}).then((dom)=>{
           this.replaceElement(dom);
 
           //onclickイベントハンドラを設定

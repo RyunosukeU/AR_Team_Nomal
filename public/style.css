@@ -154,3 +154,21 @@ header .side_button {
 .result_score {
     font-size: 600%;
 }
+
+/* 選択シーン */
+#selection {
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+#stages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#stages p{
+    font-size: 200%;
+    margin: 50px;
+}

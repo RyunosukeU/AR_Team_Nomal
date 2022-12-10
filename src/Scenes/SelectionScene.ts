@@ -2,6 +2,7 @@ import { SceneBase } from "./SceneBase";
 import * as DOM from "../DOM";
 import QuestionData from "../json/data.json";    // jsonから問題群をインポート
 import { GameScene } from "./GameScene";
+import { StartScene } from "./StartScene";
 
 export class SelectionScene extends SceneBase {
   public render(): void {
@@ -18,6 +19,8 @@ export class SelectionScene extends SceneBase {
                   this.transitTo(new GameScene(stage.id));
               }
           }
+
+          DOM.id("back_s").onclick = () => {this.transitTo(new StartScene);}
 
       }).catch((e)=>{
           console.log(e);

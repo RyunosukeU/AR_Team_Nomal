@@ -52,7 +52,7 @@ export class GameScene extends SceneBase {
   }
 
   private ontimer(): void {
-      this.timeRemaining = 1;
+      this.timeRemaining -= 1;
       DOM.id("time").innerHTML = `制限時間： ${this.timeRemaining}秒`;
       DOM.id("state").innerHTML = '';
 
@@ -61,7 +61,7 @@ export class GameScene extends SceneBase {
           this.timeRemaining = 30;
 
           clearInterval(this.timer);
-          this.transitTo(new EndScene(this, this.stage_id));
+          this.transitTo(new EndScene(this, this.stage_id, this.score));
       }
   }
 

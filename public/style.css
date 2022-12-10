@@ -1,8 +1,13 @@
+body {
+    margin: 0;
+}
+
 /* スタート画面 */
 .start {
     margin: 0 auto;
-    margin-top: 100px;
-    width: 80%;
+    margin-top: 20%;
+    width: 100%;
+    height: 100%;
     max-width: 500px;
     text-align: center;
 }
@@ -15,6 +20,8 @@
 header {
     margin: 0;
     display: flex;
+    grid-area: head;
+    border-bottom: solid black 1px;
 }
 
 header h1 {
@@ -22,7 +29,7 @@ header h1 {
     margin-left: auto;
 }
 
-header #back {
+header .side_button {
     margin-top: auto;
     margin-right: 20px;
     margin-bottom: auto;
@@ -32,8 +39,9 @@ header #back {
 /* ゲームシーン */
 #game {
     display: grid;
+    margin: auto;
     width: 100%;
-    height: 500px;
+    height: 100%;
     grid-template-areas: "head head"
                         "score time"
                         "kanji main"
@@ -43,13 +51,9 @@ header #back {
     gap: 10px;
 }
 
-#game > header {
-    grid-area: head;
-    border: solid black 1px;
-}
-
 #score {
     grid-area: score;
+    margin: 5;
     border: solid black 1px;
     text-align: center;
     display: grid;
@@ -58,6 +62,7 @@ header #back {
 
 .question_field {
     grid-area: kanji;
+    margin: 5;
     border: solid black 1px;
     position:relative;
 }
@@ -69,6 +74,7 @@ header #back {
 #kanji {
     font-size: 600%;
     text-align: center;
+    margin: 5;
     position:absolute;
     top:50%;
     left:50%;
@@ -78,6 +84,7 @@ header #back {
 #desc {
     grid-area: desc;
     border: solid black 1px;
+    margin: 5;
     text-align: center;
     display: grid;
     place-items: center;
@@ -85,6 +92,7 @@ header #back {
 
 #game > main {
     grid-area: main;
+    margin: 5;
     border: solid black 1px;
     position:relative;
 }
@@ -109,8 +117,40 @@ header #back {
 
 #time {
     grid-area: time;
+    margin: 5;
     border: solid black 1px;
     text-align: center;
     display: grid;
     place-items: center;
+}
+
+/* エンドシーン */
+#end {
+    display: grid;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    grid-template-areas: "head"
+                        "result"
+                        "ranking";
+    grid-template-rows: 100px 1fr 30%;
+    gap: 10px;
+}
+
+#result {
+    grid-area: result;
+    text-align: center;
+}
+
+#ranking {
+    grid-area: ranking;
+    text-align: center;
+    border: solid black 1px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 20px;
+}
+
+.result_score {
+    font-size: 600%;
 }

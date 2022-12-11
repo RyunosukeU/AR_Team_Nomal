@@ -4,10 +4,11 @@ import QuestionData from "../json/data.json";    // jsonから問題群をイン
 import { SelectionScene } from "./SelectionScene";
 import { Judge } from "../Judge";
 import { EndScene } from "./EndScene";
+import { Question } from "../QuestionDataBase";
 
 export class GameScene extends SceneBase {
     private timeRemaining: number = 0;
-    private questions; // 問題データ
+    private questions: Question; // 問題データ
     private questionIndex: number; // 問題用インデックス
     private questionLength: number;   // 問題数
     private timer?: NodeJS.Timer;
@@ -21,7 +22,7 @@ export class GameScene extends SceneBase {
         this.stage_id = stage_id;
         this.questionIndex = 0;
         this.questionLength = -1;
-        this.questions = QuestionData.questions[Number(this.stage_id) - 1]    //ステージid(番号)から問題を取得
+        this.questions = QuestionData.questions[Number(this.stage_id) - 1]  //ステージid(番号)から問題を取得
         this.score = 0;
     }
 
@@ -30,7 +31,7 @@ export class GameScene extends SceneBase {
     }
 
     public render(): void {
-        console.log(this.questionIndex);
+        console.log(typeof(QuestionData.questions));
         this.timeRemaining = 30;    //制限時間の設定
         this.questionLength = this.questions.data.length;   //問題数を取得
 
@@ -44,7 +45,7 @@ export class GameScene extends SceneBase {
             DOM.id("monitor").onclick = () => {
                 DOM.id("monitor").innerHTML = 'カメラ入力部';
                 this.timer = setInterval(this.ontimer.bind(this), 1000);
-                DOM.id("monitor").onclick = () => { this.game(this.questions.data[this.questionIndex].kanji); };
+                DOM.id("monitor").onclick = () => { this.capture_handtrack(this.questions.data[this.questionIndex].kanji); };
             };
 
             DOM.id("back").onclick = () => {
@@ -71,7 +72,7 @@ export class GameScene extends SceneBase {
     }
 
     //ゲームの判定部分を行う関数
-    private game(kanji: string): void {
+    private capture_handtrack(kanji: string): void {
         const judge = new Judge;
         if (judge.getJudgement(kanji)) {
             console.log("正解です");

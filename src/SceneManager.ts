@@ -1,4 +1,4 @@
-import { SceneBase } from "./Scenes" 
+import { SceneBase } from "./Scenes/SceneBase" 
 
 export class SceneManager {
   public currentScene?: SceneBase;

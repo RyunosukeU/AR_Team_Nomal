@@ -3,17 +3,17 @@
         {
             "id": "1",
             "name": "stage1",
-            "data": [{"kanji": "handTrackData"}]
+            "data": [{"kanji": "私"}, {"kanji": "点"}, {"kanji": "朝"}, {"kanji": "帰"}]
         },
         {
             "id": "2",
             "name": "stage2",
-            "data" :[{"kanji": "handTrackData"}]
+            "data": [{"kanji": "私"}, {"kanji": "点"}, {"kanji": "朝"}, {"kanji": "帰"}]
         },
         {
             "id": "3",
             "name": "stage3",
-            "data" :[{"kanji": "handTrackData"}]
+            "data": [{"kanji": "私"}, {"kanji": "点"}, {"kanji": "朝"}, {"kanji": "帰"}]
         },
         {
             "id": "4",

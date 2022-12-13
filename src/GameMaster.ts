@@ -1,5 +1,5 @@
 import { SceneManager } from "./SceneManager"
-import { StartScene } from "./Start"; 
+import { StartScene } from "./Scenes/StartScene"; 
 
 
 export class GameMaster{

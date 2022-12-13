@@ -7,3 +7,4 @@ export class Point{
         this.Y = Y;
     }
 }
+console.log(Point);

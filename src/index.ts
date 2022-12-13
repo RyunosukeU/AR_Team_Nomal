@@ -1,53 +1,72 @@
-import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
-import { Hands, HAND_CONNECTIONS } from '@mediapipe/hands';
-import { Camera } from '@mediapipe/camera_utils';
+//以下のpose-detection/demos/live_video/からの抜粋コードが含まれます
+//https://github.com/tensorflow/tfjs-models
 
-const video = document.getElementById('input') as HTMLVideoElement;
-    const canvas = document.getElementById('output') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d');
-    //関連ファイルの読み込み
-    const config = {
-      locateFile: (file: any) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-    };
-    const hands = new Hands(config);
+import '@tensorflow/tfjs-backend-webgl';
+import * as tf from '@tensorflow/tfjs-core';
+import * as posedetection from '@tensorflow-models/pose-detection';
+//import { Pose, Keypoint, MoveNetModelConfig } from '@tensorflow-models/pose-detection';
+import { Hand, Keypoint } from '@tensorflow-models/hand-pose-detection';
+import { Camera } from './camera';
+import { PoseDetector } from './PoseDetector';
+import { HandDetector } from './HandDetector';
+import * as params from './params';
+import { threadId } from 'worker_threads';
+import { HandJudge } from './HandJudge'
+import { deflateRaw } from 'zlib';
 
-    //カメラからの映像をhands.jsで使えるようにする
-    const camera = new Camera(video, {
-      onFrame: async () => {
-        await hands.send({image: video});
-      },
-      width: 600,
-      height: 400
-    });
+class App {
+    camera?: Camera;
+    //poseDetector?: PoseDetector;
+    handDetector?: HandDetector;
 
-    hands.setOptions({
-        maxNumHands: 2,              //検出する手の最大数
-        modelComplexity: 1,          //ランドマーク検出精度(0か1)
-        minDetectionConfidence: 0.5, //手を検出するための信頼値(0.0~1.0)
-        minTrackingConfidence: 0.5   //ランドマーク追跡の信頼度(0.0~1.0)
-    });
+    constructor() {
+    }
 
-    //形状認識した結果の取得
-    hands.onResults(results => {
-      ctx?.clearRect(0,0,canvas.width,canvas.height);
-      //ctx.scale(-1, 1)
-      //ctx.translate(-width, 0)
-      ctx?.drawImage(results.image,0,0,canvas.width,canvas.height);
-      
-      if(results.multiHandLandmarks) {
-        results.multiHandLandmarks.forEach(marks => {
-          // 緑色の線で骨組みを可視化
-          drawConnectors(ctx!, marks, HAND_CONNECTIONS, {color: '#0f0'});
+    async build() {
+        //cameraParam: { targetFPS: number, sizeOption: { width: number, height: number } }) {
+        this.camera = await Camera.setupCamera(
+            { 
+                targetFPS: 30, 
+                sizeOption: { width: 640, height: 480 } }
+            );
 
-          // 赤色でランドマークを可視化
-          drawLandmarks(ctx!, marks, {color: '#f00'});
-        })
-      }
-    });
+        //this.poseDetector = await PoseDetector.create();
+        this.handDetector = await HandDetector.create();
+    }
 
-    
-    //認識開始・終了ボタン
-    document.getElementById('start')!
-      .addEventListener('click', () => camera.start());
-    document.getElementById('stop')!
-      .addEventListener('click', () =>  camera.stop());
+    async run() {
+        //this.cameraとthis.detectorは確実にnullではない（ようにプログラマはコーディングしている）
+        const camera = this.camera!;
+        //const detector = this.poseDetector!;
+        const hand = this.handDetector!;
+
+        await camera.waitReady();
+        camera.drawVideo();
+
+        const hands = await hand.detect(camera.video);
+        //const poses = await detector.detect(camera.video);
+        if(hands.length > 0) {
+            camera.drawHands(hands);
+            const point = hands[0].keypoints
+            let handjud = new HandJudge;
+            console.log(handjud.detectFingerPose(point))
+
+        }
+        //if (poses.length > 0 ) {
+        //    camera.drawResults(poses);
+
+            //例えばここでposesを分析するクラスのメソッドを呼び出す
+        //}
+
+        //本メソッドをループ実行する(抜けたあと，再度呼び出される)
+        requestAnimationFrame(this.run.bind(this));
+    }
+};
+
+async function run() {
+    const app = new App();
+    await app.build();
+    await app.run();
+}
+
+run();

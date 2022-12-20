@@ -15,6 +15,7 @@ export class HandDraw{
         //var blob = Base64toBlob(base64);
         // blobデータをa要素を使ってダウンロード
     }
+
     indexDraw(hand:Hand){
         const indexFinger = hand.keypoints.filter(kp => {if(kp.name == "index_finger_tip"){return kp}});
         const allFinger = hand.keypoints
@@ -29,9 +30,9 @@ export class HandDraw{
     }
     drawFinish() {
         this.camera?.video.pause();
-        setTimeout( () => {
-            this.camera?.video.play();
-        }, 1000);
+        //setTimeout( () => {
+          //  this.camera?.video.play();
+        //}, 1000);
     }
 
 

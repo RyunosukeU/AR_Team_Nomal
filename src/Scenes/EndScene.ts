@@ -12,6 +12,7 @@ export class EndScene extends SceneBase {
         private score: number,
     ) {
         super();
+        this.rankingScene = new RankingScene;
     }
     public render(): void {
         const div = DOM.make('div',
@@ -37,5 +38,6 @@ export class EndScene extends SceneBase {
             ], { id: "end" }
         );
         this.replaceElement(div);
+        this.rankingScene.showRanking(this.stage_id);
     }
 }

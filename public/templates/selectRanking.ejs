@@ -1,11 +1,15 @@
 <div id="selection">
   <header>
       <h1>ランキング</h1>
-      <div id="back_s" class="side_button">戻る</div>
+      <div id="back_to_select" class="side_button">戻る</div>
   </header>
-  <div id="stages">
-      <% for(var stage of stages) { %>
-          <p id="<%= stage.id %>" >  <%= stage.name %></p>
-          <% } %>
-  </div>
+  <select name="selectStage" id="selectStage">
+    <option value="1">stage1</option>
+    <option value="2">stage2</option>
+    <option value="3">stage3</option>
+    <option value="4">stage4</option>
+    <option value="5">stage5</option>
+    <option value="6">stage6</option>
+  </select>
+  <div id="ranking"></div>
 </div>

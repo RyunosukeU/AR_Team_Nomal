@@ -34,7 +34,7 @@ export class RankingScene extends SceneBase {
     this.scoreManager = scoreData.scores
   }
 
-  public calculationScore(): number{
+  public calculationScore(currentScore: number): number{
     const score = this.correctAnswers + this.timeRemaining
     return score
   }
@@ -47,6 +47,8 @@ export class RankingScene extends SceneBase {
   }
 
   public showRanking(stageId: string): void{
+    this.buildRanking(stageId)
+    DOM.id("ranking").innerHTML = ""
     let rankingByStage = this.scoreManager[Number(stageId) - 1].scores
     for (let i = 0; i < 3; i++) {
       console.log(i)
@@ -61,12 +63,17 @@ export class RankingScene extends SceneBase {
 
   public render(): void {
 
-    console.log(this.ranking)
+    // let selectedStage = DOM.id("selectStage") as HTMLInputElement
+    // selectedStage.onchange = () => {
+    // let stage_num = selectedStage.value
+    // console.log(stage_num)
+    // }
 
-    this.buildRanking(this.stageId[1])
+    console.log(this.ranking)
 
     const ranking = DOM.make("div",
       [
+        
         DOM.make('header',
         [
           DOM.make("h1", "Ranking"),
@@ -79,8 +86,19 @@ export class RankingScene extends SceneBase {
       ], {className:"ranking"});
 
 
-      this.replaceElement(ranking);
-      this.showRanking(this.stageId[1]);
+
+      DOM.template("./templates/selectRanking.ejs", {}).then((dom) => {
+        this.replaceElement(dom);
+        this.showRanking(this.stageId[1]);
+        DOM.id("back_to_select").onclick = () => {this.transitTo(new SelectionScene());};
+        let selectedStage = DOM.id("selectStage") as HTMLInputElement
+        selectedStage.onchange = () => {
+        let stage_num = selectedStage.value
+        this.showRanking(stage_num);
+      }
+      })
+
+      //this.replaceElement(ranking);
   }
 
 }

@@ -13,6 +13,7 @@ import * as params from './params';
 import { threadId } from 'worker_threads';
 import { HandJudge } from './HandJudge'
 import { deflateRaw } from 'zlib';
+import { HandDraw } from './HandDraw';
 
 class App {
     camera?: Camera;
@@ -49,7 +50,17 @@ class App {
             camera.drawHands(hands);
             const point = hands[0].keypoints
             let handjud = new HandJudge;
+            let draw = new HandDraw;
             console.log(handjud.detectFingerPose(point))
+            if(handjud.detectFingerPose(point) == '一'){
+                draw.indexDraw;
+            }
+            else if(handjud.detectFingerPose(point) == "グー"){
+                draw.drawFinish;
+                console.log("終了")
+                
+            }
+            
 
         }
         //if (poses.length > 0 ) {

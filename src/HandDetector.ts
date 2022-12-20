@@ -1,4 +1,3 @@
-import {Point} from './Point'
 import '@tensorflow/tfjs-backend-webgl';
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
 import { Hand, MediaPipeHandsTfjsModelConfig, MediaPipeHandsMediaPipeModelConfig } from '@tensorflow-models/hand-pose-detection';

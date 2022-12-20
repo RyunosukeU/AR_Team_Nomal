@@ -41,23 +41,13 @@ export class HandJudge{
         let fourthFingerIsOpen = this.cancFingerAngle(landmarks[0], landmarks[17], landmarks[18], landmarks[19], landmarks[20]) < 100
       
         // ジェスチャー
-        if (this.calcDistance(landmarks[4], landmarks[8]) < 0.1 && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen) {
-          return "OK"
-        } else if (this.calcDistance(landmarks[4], landmarks[12]) < 0.1 && this.calcDistance(landmarks[4], landmarks[16]) < 0.1 && firstFingerIsOpen && fourthFingerIsOpen) {
-          return "キツネ"
-        } else if (thumbIsOpen && !firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen) {
-          return "いいね"
-        } else if (thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen) {
+        if (thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen) {
           return "パー"
-        } else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen) {
-          return "四"
-        } else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && !fourthFingerIsOpen) {
-          return "三"
-        } else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen) {
-          return "二"
         } else if (!thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen) {
           return "一"
+        } else if (!thumbIsOpen && !firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen) {
+          return "グー"
         }
-        return "グー"
+        return "不明"
       }
 }

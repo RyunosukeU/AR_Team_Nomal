@@ -2,7 +2,6 @@ import * as posedetection from '@tensorflow-models/pose-detection';
 import { Pose, Keypoint } from '@tensorflow-models/pose-detection';
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import * as params from './params';
-import { Point } from './Point'
 
 const COLOR_PALETTE = [
     '#ffffff', '#800000', '#469990', '#e6194b', '#42d4f4', '#fabed4', '#aaffc3',
@@ -91,6 +90,16 @@ export class Camera {
         //console.log(this, this.ctx);
         this.ctx.drawImage(
             this.video, 0, 0, this.video.videoWidth, this.video.videoHeight);
+
+    }
+
+    captureVideo(){
+        this.video.pause();
+        //setTimeout( () => {
+        //    this.video.play();
+        //}, 1000);
+        
+
 
     }
 
@@ -208,10 +217,9 @@ export class Camera {
         // this.ctx.strokeStyle = 'White'; 
         // this.ctx.lineWidth = params.DEFAULT_LINE_WIDTH;
 
-
         for(const hand of hands) {
             if(hand.score > thre) {
-                const kps= hand.keypoints.filter(kp => {if(kp.name == "index_finger_tip"){return kp}});
+                const kps= hand.keypoints//.filter(kp => {if(kp.name == "index_finger_tip"){return kp}});
                 for(const kp of kps) {
                     this.ctx.beginPath();
                     this.ctx.arc(kp.x, kp.y, params.DEFAULT_RADIUS, 0, 2 * Math.PI);

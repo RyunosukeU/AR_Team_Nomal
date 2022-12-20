@@ -1,10 +1,10 @@
 // 問題用の型
-export type Question = {
+export type QuestionSet = {
     id: string;
     name: string
-    data: Kanji[]
+    data: Question[]
 }
 
-export type Kanji = {
+export type Question = {
     kanji: string
 }

@@ -4,11 +4,11 @@ import QuestionData from "../json/data.json";    // jsonから問題群をイン
 import { SelectionScene } from "./SelectionScene";
 import { Judge } from "../Judge";
 import { EndScene } from "./EndScene";
-import { Question } from "../QuestionDataBase";
+import { QuestionSet } from "../QuestionDataBase";
 
 export class GameScene extends SceneBase {
     private timeRemaining: number = 0;
-    private questions: Question; // 問題データ
+    private questions: QuestionSet; // 問題データ
     private questionIndex: number; // 問題用インデックス
     private questionLength: number;   // 問題数
     private timer?: NodeJS.Timer;

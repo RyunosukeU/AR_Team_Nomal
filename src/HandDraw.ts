@@ -29,9 +29,9 @@ export class HandDraw{
     }
     drawFinish() {
         this.camera?.video.pause();
-        //setTimeout( () => {
-        //    this.video.play();
-        //}, 1000);
+        setTimeout( () => {
+            this.video.play();
+        }, 1000);
     }
 
 

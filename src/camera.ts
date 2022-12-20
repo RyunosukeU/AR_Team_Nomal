@@ -93,15 +93,7 @@ export class Camera {
 
     }
 
-    captureVideo(){
-        this.video.pause();
-        //setTimeout( () => {
-        //    this.video.play();
-        //}, 1000);
-        
-
-
-    }
+    
 
     clearCtx() {
         this.ctx.clearRect(0, 0, this.video.videoWidth, this.video.videoHeight);

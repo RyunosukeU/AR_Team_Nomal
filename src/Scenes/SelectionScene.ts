@@ -3,6 +3,7 @@ import * as DOM from "../DOM";
 import QuestionData from "../json/data.json";    // jsonから問題群をインポート
 import { GameScene } from "./GameScene";
 import { StartScene } from "./StartScene";
+import { RankingScene } from "./RankingScene";
 
 export class SelectionScene extends SceneBase {
   public render(): void {
@@ -11,6 +12,11 @@ export class SelectionScene extends SceneBase {
       //http getするのでpromiseが返る．
       DOM.template("./templates/selection.ejs", {stages:stages}).then((dom)=>{
           this.replaceElement(dom);
+
+          DOM.id("ranking").onclick = (e) => {
+            console.log("Ranking");
+            this.transitTo(new RankingScene())
+          }
 
           //onclickイベントハンドラを設定
           for(const stage of stages) {

@@ -2,9 +2,10 @@ import { SceneBase } from "./SceneBase";
 import * as DOM from "../DOM";
 import { GameScene } from "./GameScene";
 import { StartScene } from "./StartScene";
-
+import { RankingScene } from "./RankingScene";
 
 export class EndScene extends SceneBase {
+    private rankingScene!: RankingScene
     constructor(
         private prevScene: SceneBase,
         private stage_id: string,

@@ -67,7 +67,7 @@ export class GameScene extends SceneBase {
             DOM.id("kanji").innerHTML = '終了';
 
             clearInterval(this.timer);
-            this.transitTo(new EndScene(this, this.stage_id, this.score));
+            this.transitTo(new EndScene(this, this.stage_id, this.score, this.timeRemaining));
         }
     }
 

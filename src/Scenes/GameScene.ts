@@ -5,6 +5,7 @@ import { SelectionScene } from "./SelectionScene";
 import { Judge } from "../Judge";
 import { EndScene } from "./EndScene";
 import { Question } from "../QuestionDataBase";
+import { DrawManager } from "../GameLogics/DrawManager";
 
 export class GameScene extends SceneBase {
     private timeRemaining: number = 0;
@@ -42,15 +43,21 @@ export class GameScene extends SceneBase {
         }).then((dom) => {
             this.replaceElement(dom);
 
-            DOM.id("monitor").onclick = () => {
-                DOM.id("monitor").innerHTML = 'カメラ入力部';
+            DOM.id("monitor").onclick = async () => {
+                DOM.id("monitor").innerHTML = '';
+                // キャンバス要素の展開
+                const tmp = await DOM.template("./templates/canvas.ejs");
+                DOM.id("monitor").appendChild(tmp);
+
+                // タイマーの開始
                 this.timer = setInterval(this.ontimer.bind(this), 1000);
-                DOM.id("monitor").onclick = () => { this.capture_handtrack(this.questions.data[this.questionIndex].kanji); };
+                this.capture_handtrack(this.questions.data[this.questionIndex].kanji);
+                // DOM.id("monitor").onclick = () => { this.capture_handtrack(this.questions.data[this.questionIndex].kanji); };
             };
 
             DOM.id("back").onclick = () => {
-                this.transitTo(new SelectionScene);
                 clearInterval(this.timer);
+                this.transitTo(new SelectionScene);
             };
         })
     }
@@ -72,8 +79,14 @@ export class GameScene extends SceneBase {
     }
 
     //ゲームの判定部分を行う関数
-    private capture_handtrack(kanji: string): void {
+    private async capture_handtrack(kanji: string) {
+
+        const app = new DrawManager();
+        await app.build();
+        await app.run();
+
         const judge = new Judge;
+    
         if (judge.getJudgement(kanji)) {
             console.log("正解です");
             this.score += 10;

@@ -173,3 +173,11 @@ header .side_button {
     font-size: 200%;
     margin: 50px;
 }
+
+#letter {
+    display: none;
+}
+
+video {
+    display: none;
+}

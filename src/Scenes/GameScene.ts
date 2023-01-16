@@ -2,10 +2,10 @@ import { SceneBase } from "./SceneBase";
 import * as DOM from "../DOM";
 import QuestionData from "../json/data.json";    // jsonから問題群をインポート
 import { SelectionScene } from "./SelectionScene";
-import { Judge } from "../Judge";
+import { Judge } from "../GameLogics/Judge";
 import { EndScene } from "./EndScene";
 import { Question } from "../QuestionDataBase";
-import { DrawManager } from "../GameLogics/DrawManager";
+import { GameManager } from "../GameLogics/GameManager";
 
 export class GameScene extends SceneBase {
     private timeRemaining: number = 0;
@@ -15,6 +15,7 @@ export class GameScene extends SceneBase {
     private timer?: NodeJS.Timer;
     private stage_id: string;
     private score: number;
+    public kanji: string;   // 他クラスで認識するための漢字
 
     constructor(
         stage_id: string
@@ -25,6 +26,7 @@ export class GameScene extends SceneBase {
         this.questionLength = -1;
         this.questions = QuestionData.questions[Number(this.stage_id) - 1]  //ステージid(番号)から問題を取得
         this.score = 0;
+        this.kanji = this.questions.data[this.questionIndex].kanji;
     }
 
     public init(): void {
@@ -33,7 +35,7 @@ export class GameScene extends SceneBase {
 
     public render(): void {
         console.log(typeof(QuestionData.questions));
-        this.timeRemaining = 30;    //制限時間の設定
+        this.timeRemaining = 120;    //制限時間の設定
         this.questionLength = this.questions.data.length;   //問題数を取得
 
         DOM.template("./templates/game.ejs", {
@@ -49,10 +51,17 @@ export class GameScene extends SceneBase {
                 const tmp = await DOM.template("./templates/canvas.ejs");
                 DOM.id("monitor").appendChild(tmp);
 
+                const gameManager = new GameManager(this);
+                await gameManager.build();
+
                 // タイマーの開始
                 this.timer = setInterval(this.ontimer.bind(this), 1000);
-                this.capture_handtrack(this.questions.data[this.questionIndex].kanji);
-                // DOM.id("monitor").onclick = () => { this.capture_handtrack(this.questions.data[this.questionIndex].kanji); };
+
+                // ゲームの実行
+                await gameManager.run();
+
+                // onclickイベントを削除
+                DOM.id("monitor").onclick = () => {};
             };
 
             DOM.id("back").onclick = () => {
@@ -69,7 +78,7 @@ export class GameScene extends SceneBase {
 
         //残り時間がなくなる、または問題が最後まで進む
         if (this.timeRemaining === 0 || this.questionIndex === this.questionLength) {
-            this.timeRemaining = 30;
+            this.timeRemaining = 120;
 
             DOM.id("kanji").innerHTML = '終了';
 
@@ -79,24 +88,19 @@ export class GameScene extends SceneBase {
     }
 
     //ゲームの判定部分を行う関数
-    private async capture_handtrack(kanji: string) {
+    public changeUI(resultState: boolean) {
 
-        const app = new DrawManager();
-        await app.build();
-        await app.run();
-
-        const judge = new Judge;
-    
-        if (judge.getJudgement(kanji)) {
+        if(resultState) {
             console.log("正解です");
             this.score += 10;
             this.timeRemaining += 3;   //残り時間の追加
             this.questionIndex += 1;    //次の問題へ移行
+            this.kanji = this.questions.data[this.questionIndex].kanji;
 
             //UIの更新
             DOM.id("status").innerHTML = '○';
             if (this.questionIndex !== this.questionLength) {
-                DOM.id("kanji").innerHTML = this.questions.data[this.questionIndex].kanji;
+                DOM.id("kanji").innerHTML = this.kanji;
             }
             DOM.id("score").innerHTML = `スコア：${this.score}`
         }

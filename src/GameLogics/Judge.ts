@@ -1,5 +1,7 @@
+import * as tf from '@tensorflow/tfjs';
+
 export class Judge {
-    public getJudgement(kanji:string) {
+    public async getJudgement(kanji:string) {
         let result : boolean = true;
         return result;
     }

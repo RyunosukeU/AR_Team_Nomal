@@ -11,6 +11,7 @@ export class LineDrawer {
     buffer: Array<Array<Keypoint>>;
     tmp_buff: Array<Keypoint>;
     push_flg: boolean;
+    state: boolean;
 
     constructor(canvas: HTMLCanvasElement) {
         this.video = document.getElementById('video') as HTMLVideoElement;
@@ -21,6 +22,7 @@ export class LineDrawer {
         this.buffer = [];
         this.tmp_buff = [];
         this.push_flg = false;
+        this.state = false;
     }
 
     public setup() {
@@ -128,6 +130,12 @@ export class LineDrawer {
                 this.push_flg = true;
             }
             this.tmp_buff.push(index_point[0]);
+        } else if(gesture.detectFingerPose(hands[0].keypoints) == "good") {
+            if(this.buffer.length != 0) {
+                this.state = true;
+                console.log("good");
+            }
+            this.push_flg = false;
         } else {
             if(this.push_flg) {
                 this.buffer.push(this.tmp_buff);

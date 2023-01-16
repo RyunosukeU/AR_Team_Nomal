@@ -42,6 +42,8 @@ export class Gesture {
             return "一"
         } else if (!thumbIsOpen && !firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen) {
             return "グー"
+        } else if (thumbIsOpen && !firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen) {
+            return "good"
         }
         return "不明"
     }

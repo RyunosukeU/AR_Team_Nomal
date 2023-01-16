@@ -1,5 +1,3 @@
-import { SupportedModels } from '@tensorflow-models/pose-detection';
-
 export const DEFAULT_LINE_WIDTH = 10;
 export const DEFAULT_LINE_JOIN = 'round';
 export const DEFAULT_LINE_CAP = 'round';

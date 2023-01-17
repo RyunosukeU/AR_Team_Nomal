@@ -150,10 +150,11 @@ header .side_button {
     margin-left: 20%;
     margin-right: 20%;
     margin-bottom: 20px;
+    overflow: scroll;
 }
 
 .result_score {
-    font-size: 600%;
+    font-size: 300%;
 }
 
 /* 選択シーン */
@@ -172,4 +173,12 @@ header .side_button {
 #stages p{
     font-size: 200%;
     margin: 50px;
+}
+
+#letter {
+    display: none;
+}
+
+video {
+    display: none;
 }

@@ -14,22 +14,18 @@ export class SelectionScene extends SceneBase {
           this.replaceElement(dom);
 
           DOM.id("ranking").onclick = (e) => {
-            console.log("Ranking");
             this.transitTo(new RankingScene())
           }
 
           //onclickイベントハンドラを設定
           for(const stage of stages) {
               DOM.id(stage.id).onclick = (e) => {
-                  console.log(`select ${stage.name}`);
                   this.transitTo(new GameScene(stage.id));
               }
           }
 
           DOM.id("back_s").onclick = () => {this.transitTo(new StartScene);}
 
-      }).catch((e)=>{
-          console.log(e);
       });
       
   }

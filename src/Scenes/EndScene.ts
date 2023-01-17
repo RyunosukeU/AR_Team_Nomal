@@ -32,9 +32,10 @@ export class EndScene extends SceneBase {
                 DOM.make('div',
                     [
                         DOM.make('h1', 'あなたの点数は、、、'),
-                        DOM.make('p', `正解数：${this.correctAnswers}点`, {className:"result_score"}),
+                        DOM.make('p', `正解数：${this.correctAnswers}問`, {className:"result_score"}),
                         DOM.make('p', `残り時間${this.timeRemaining}秒`, {className:"result_score"}),
                         DOM.make('p', `${this.score}点`, {className:"result_score"}),
+                        
                         DOM.make('p', 'もう一度プレイする', {
                             onclick: () => { this.transitTo(new GameScene(this.stage_id)); },
                             className: "retry_button",

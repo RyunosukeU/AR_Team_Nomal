@@ -1,6 +1,7 @@
 import { Hand, Keypoint } from '@tensorflow-models/hand-pose-detection';
 import * as params from './params';
 import { Gesture } from './Gesture';
+import * as tf from '@tensorflow/tfjs';
 
 export class LineDrawer {
     video: HTMLVideoElement;
@@ -12,8 +13,9 @@ export class LineDrawer {
     tmp_buff: Array<Keypoint>;
     push_flg: boolean;
     state: boolean;
+    model: tf.GraphModel;
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, model: tf.GraphModel ) {
         this.video = document.getElementById('video') as HTMLVideoElement;
         this.canvas = canvas;
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -23,12 +25,16 @@ export class LineDrawer {
         this.tmp_buff = [];
         this.push_flg = false;
         this.state = false;
+        this.model = model;
     }
 
     public setup() {
         //文字取得用キャンバスの設定
-        this.letter_canvas.width = params.DEFAULT_CANVAS_WIDTH;
-        this.letter_canvas.height = params.DEFAULT_CANVAS_WIDTH;
+        const inputShape =  this.model.inputs[0].shape!;
+        this.letter_canvas.width = inputShape[inputShape.length - 2];
+        this.letter_canvas.height = inputShape[inputShape.length - 3];
+        this.letter_ctx.fillStyle = '#000';
+        this.letter_ctx.fillRect(0, 0, this.letter_canvas.width, this.letter_canvas.width);
         this.letter_ctx.translate(this.letter_canvas.width, 0);
         this.letter_ctx.scale(-1,1);
 
@@ -86,25 +92,28 @@ export class LineDrawer {
         this.ctx.stroke();
         this.ctx.closePath();
 
-        // 文字取得用キャンバスへの描画
+        // 文字取得用キャンバスへの描画.
         this.letter_ctx.lineJoin = params.DEFAULT_LINE_JOIN;
-        this.letter_ctx.lineWidth = params.DEFAULT_LINE_WIDTH;
+        this.letter_ctx.lineWidth = 2;
         this.letter_ctx.lineCap = params.DEFAULT_LINE_CAP;
+        this.letter_ctx.strokeStyle = '#fff';
+        // 比率の計算
+        const invW = this.letter_canvas.width / this.canvas.width;
         this.letter_ctx.beginPath();
         if(this.buffer.length != 0) {
             for(let i = 0; i < this.buffer.length; i++) {
-                this.letter_ctx.moveTo(this.buffer[i][0].x, this.buffer[i][0].y);
+                this.letter_ctx.moveTo(this.buffer[i][0].x * invW, this.buffer[i][0].y * invW);
                 for(let j = 1; j < this.buffer[i].length; j++) {
-                    const x = this.buffer[i][j].x;
-                    const y = this.buffer[i][j].y;
+                    const x = this.buffer[i][j].x * invW;
+                    const y = this.buffer[i][j].y * invW;
                     this.letter_ctx.lineTo(x,y);
                 }
             }
         }
         if(this.tmp_buff.length != 0) {
-            this.letter_ctx.moveTo(this.tmp_buff[0].x, this.tmp_buff[0].y) 
+            this.letter_ctx.moveTo(this.tmp_buff[0].x * invW, this.tmp_buff[0].y * invW) 
             for (let i = 1; i < this.tmp_buff.length; i++) {
-                this.letter_ctx.lineTo(this.tmp_buff[i].x, this.tmp_buff[i].y)
+                this.letter_ctx.lineTo(this.tmp_buff[i].x * invW, this.tmp_buff[i].y * invW)
             }
         }
         this.letter_ctx.stroke();
@@ -133,7 +142,6 @@ export class LineDrawer {
         } else if(gesture.detectFingerPose(hands[0].keypoints) == "good") {
             if(this.buffer.length != 0) {
                 this.state = true;
-                console.log("good");
             }
             this.push_flg = false;
         } else {
@@ -143,5 +151,14 @@ export class LineDrawer {
             }
             this.push_flg = false;
         }
+    }
+
+    public clear(): void {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.letter_ctx.clearRect(0, 0, this.letter_canvas.width, this.letter_canvas.height);
+        this.letter_ctx.fillStyle = '#000';
+        this.letter_ctx.fillRect(0, 0, this.letter_canvas.width, this.letter_canvas.width);
+        this.buffer = [];
+        this.tmp_buff = [];
     }
 }

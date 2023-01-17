@@ -4,11 +4,13 @@ import { GameScene } from '../Scenes/GameScene';
 import { Camera } from "./camera";
 import { HandDetector } from "./HandDetector";
 import { LineDrawer } from './LineDrawer';
+import * as params from './params';
 
 export class GameManager {
     camera?: Camera;
     handDetector?: HandDetector;
     lineDrawer?: LineDrawer;
+    judge?: Judge;
     isJudged: boolean;  // trueなら判定中、falseなら手の認識中
     gameScene: GameScene;
 
@@ -21,11 +23,14 @@ export class GameManager {
         this.camera = await Camera.setupCamera(
             { 
                 targetFPS: 30, 
-                sizeOption: { width: 640, height: 480 } }
-            );
+                sizeOption: { width: params.DEFAULT_CANVAS_WIDTH, height: params.DEFAULT_CANVAS_WIDTH } 
+            }
+        );
+        this.judge = new Judge;
+        await this.judge.setup();
 
         this.handDetector = await HandDetector.create();
-        this.lineDrawer = new LineDrawer(this.camera.canvas);
+        this.lineDrawer = new LineDrawer(this.camera.canvas, this.judge.model!);
         this.lineDrawer.setup();
     }
 
@@ -34,6 +39,7 @@ export class GameManager {
         const camera = this.camera!;
         const hand = this.handDetector!;
         const lineDrawer = this.lineDrawer!;
+        const judge = this.judge!;
 
         await camera.waitReady();
         camera.drawVideo();
@@ -51,11 +57,11 @@ export class GameManager {
             lineDrawer.draw();
         } else {
             // 判定器を作成
-            const judge = new Judge;
             const result = await judge.getJudgement(this.gameScene.kanji);
             this.gameScene.changeUI(result);
 
-            this.clear();
+            // 画面のクリア
+            lineDrawer.clear();
             lineDrawer.state = false;
         }
 
@@ -64,12 +70,5 @@ export class GameManager {
 
         //本メソッドをループ実行する(抜けたあと，再度呼び出される)
         requestAnimationFrame(this.run.bind(this));
-    }
-
-    clear() {
-        const lineDrawer = this.lineDrawer!;
-        lineDrawer.letter_ctx.clearRect(0, 0, lineDrawer.letter_canvas.width, lineDrawer.letter_canvas.height);
-        lineDrawer.buffer = [];
-        lineDrawer.tmp_buff = [];
     }
 }

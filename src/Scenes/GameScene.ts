@@ -2,7 +2,6 @@ import { SceneBase } from "./SceneBase";
 import * as DOM from "../DOM";
 import QuestionData from "../json/data.json";    // jsonから問題群をインポート
 import { SelectionScene } from "./SelectionScene";
-import { Judge } from "../GameLogics/Judge";
 import { EndScene } from "./EndScene";
 import { Question } from "../QuestionDataBase";
 import { GameManager } from "../GameLogics/GameManager";
@@ -35,7 +34,7 @@ export class GameScene extends SceneBase {
 
     public render(): void {
         console.log(typeof(QuestionData.questions));
-        this.timeRemaining = 120;    //制限時間の設定
+        this.timeRemaining = 5;    //制限時間の設定
         this.questionLength = this.questions.data.length;   //問題数を取得
 
         DOM.template("./templates/game.ejs", {
@@ -78,8 +77,6 @@ export class GameScene extends SceneBase {
 
         //残り時間がなくなる、または問題が最後まで進む
         if (this.timeRemaining === 0 || this.questionIndex === this.questionLength) {
-            this.timeRemaining = 120;
-
             DOM.id("kanji").innerHTML = '終了';
 
             clearInterval(this.timer);
@@ -87,7 +84,7 @@ export class GameScene extends SceneBase {
         }
     }
 
-    //ゲームの判定部分を行う関数
+    // UIの変更を行う
     public changeUI(resultState: boolean) {
 
         if(resultState) {
@@ -106,7 +103,7 @@ export class GameScene extends SceneBase {
         }
         else {
             console.log("不正解です");
-            DOM.id("state").innerHTML = "×";
+            DOM.id("status").innerHTML = "×";
         }
     }
 }

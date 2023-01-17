@@ -35,7 +35,23 @@ export class EndScene extends SceneBase {
                         DOM.make('p', `正解数：${this.correctAnswers}問`, {className:"result_score"}),
                         DOM.make('p', `残り時間${this.timeRemaining}秒`, {className:"result_score"}),
                         DOM.make('p', `${this.score}点`, {className:"result_score"}),
-                        
+                        DOM.make('div', [
+                            DOM.make('p', 'ユーザー名の登録'),
+                            DOM.makeInput("text", {id: "userName"}),
+                            DOM.makeInput("button", {value: "登録する", id: "submit_button", onclick: ()=>{
+                                const input = DOM.id("userName") as HTMLInputElement;
+                                if(input.value != "") {
+                                    this.rankingScene.add_and_show(this.stage_id, this.score, input.value);
+                                } else {
+                                    this.rankingScene.add_and_show(this.stage_id, this.score, "名無しさん");
+                                }
+
+                                // 2度目は入力できないように
+                                input.disabled = true;
+                                const button = DOM.id("submit_button") as HTMLInputElement;
+                                button.disabled = true;
+                            }}),
+                        ]),
                         DOM.make('p', 'もう一度プレイする', {
                             onclick: () => { this.transitTo(new GameScene(this.stage_id)); },
                             className: "retry_button",
@@ -45,11 +61,10 @@ export class EndScene extends SceneBase {
             ], { id: "end" }
         );
         this.replaceElement(div);
-        this.rankingScene.add_and_show(this.stage_id, this.score, "テストさん");
     }
 
-    public calculationScore(correctAnswers: number, timeRemaining: number): number{
+    private calculationScore(correctAnswers: number, timeRemaining: number): number{
         const score = correctAnswers + timeRemaining
         return score
-      }
+    }
 }

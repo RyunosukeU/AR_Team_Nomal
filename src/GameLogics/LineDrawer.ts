@@ -38,32 +38,6 @@ export class LineDrawer {
         this.letter_ctx.translate(this.letter_canvas.width, 0);
         this.letter_ctx.scale(-1,1);
 
-        // イベントの登録
-        // キーを押した時
-        document.addEventListener('keydown', (e) => {
-            // qを押した時に、キャンバスをクリアする
-            if (e.key == "q") {
-                const ret = confirm('canvasの内容を削除します。');
-                // アラートで「OK」を選んだ時
-                if (ret == true) {
-                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    this.letter_ctx.clearRect(0, 0, this.letter_canvas.width, this.letter_canvas.height);
-                    this.buffer = [];
-                    this.tmp_buff = [];
-                }
-            }
-            if(e.key == "a") {
-                console.log(this.buffer);
-            }
-            // tを押した時に、文字用キャンバスから画像を生成する
-            if(e.key == "t") {
-                var png = this.letter_canvas.toDataURL();
-                var img_tag = document.getElementById("image") as HTMLMediaElement;
-                console.log(typeof(img_tag));
-                img_tag.src = png;
-            }
-        })
-
         console.log("setup completed!");
     }
 

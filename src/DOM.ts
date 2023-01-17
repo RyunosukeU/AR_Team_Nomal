@@ -46,6 +46,23 @@ function make(tag:string, html_or_children?:string|HTMLElement|HTMLElement[],
     return new_element;
 }
 
+function makeInput(type: string, options?: { id?:string, className?:string, value?:string, onclick?:()=>void } ): HTMLInputElement {
+    const new_element = document.createElement("input") as HTMLInputElement;
+    new_element.type = type;
+    if(options !== undefined) {
+        new_element.onclick = (e:MouseEvent) => {
+            if(options.onclick) {
+                options.onclick();
+            }
+        } 
+        new_element.className = options.className ?? "";
+        new_element.id = options.id ?? "";
+        new_element.value = options.value ?? "";
+    }
+
+    return new_element;
+}
+
 function id(id:string) : HTMLElement {
     const elm = document.getElementById(id);
     if(!elm) {
@@ -64,4 +81,4 @@ function removeChildren(node:Node) {
     }
 }
 
-export {template, make, id, add, removeChildren}
+export {template, make, id, add, removeChildren, makeInput}

@@ -1,12 +1,21 @@
-<div id="selection">
-    <header>
-        <h1>コース選択</h1>
-        <div id="back_s" class="side_button">TOPに戻る</div>
-    </header>
-    <p id="ranking"> Ranking </p>
+<div id="selection" class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <div class="container">
+          <a class="navbar-brand" href="#">コース選択</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a id="back_s" class="nav-link active" aria-current="page" href="#">TOPに戻る</a>
+            </ul>
+          </div>
+        </div>
+    </nav>
     <div id="stages">
         <% for(var stage of stages) { %>
-            <p id="<%= stage.id %>" >  <%= stage.name %></p>
+            <button type="button" class="btn fluid btn-info btn-lg" id="<%= stage.id %>">  <%= stage.name %> </button>
             <% } %>
     </div>
 </div>

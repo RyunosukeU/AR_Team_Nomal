@@ -1,0 +1,32 @@
+<div id="end">
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <div class="container">
+          <a class="navbar-brand" href="#">結果発表</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a id="back" class="nav-link active" aria-current="page" href="#">TOPに戻る</a>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div id="result" class="container">
+        <h1><%= stageName %></h1>
+        <div id="total">
+            <h1 class="total_score"><%= score %>点</h1>
+            <p class="result_score">正解数：<%= correct %></p>
+            <p class="result_score">残り時間：<%= time %>秒</p>
+        </div>
+        <div class="registar_box">
+            <input type="text" id="userName" placeholder="ユーザー名">
+            <input type="button" value="登録する" id="register">
+        </div>
+        <p id="retry_button" class="btn bg-info">もう一度プレイする</p>
+        <p id="select_cource" class="btn bg-info">コースを選択</p>
+        <div id="ranking"></div>
+    </div>
+</div>

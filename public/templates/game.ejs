@@ -1,17 +1,37 @@
- <div id="game">
-    <header>
-        <h1><%= name %></h1>
-        <div id="back" class="side_button">戻る</div>
-    </header>
-    <div id="score">スコア：<%= score %></div>
-    <div class="question_field">
-        <p>お題</p>
-        <div id="kanji"><%= kanji %></div>
+ <div id="game bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <div class="container">
+          <a class="navbar-brand" href="#"><%= name %></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a id="back" class="nav-link active" aria-current="page" href="#">戻る</a>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div class="container" id="game_container">
+        <div class="row" id="timer_row">
+            <div class="col-4" id="time">制限時間： 120秒</div>
+        </div>
+        <div class="row" id="monitor_row">
+            <div class="col-12">
+                <div id="monitor">クリックしてスタート</div>
+            </div>
+        </div>
+        <div class="row" id="kanji_row">
+            <div class="col-3" id="kanji_col">
+                <p>お題</p>
+                <img id="status">
+                <div id="kanji">仮</div>
+            </div>
+            <div class="col-9" id="score_col">
+                <div id="score">スコア：<%= score %></div>
+            </div>
+        </div>
     </div>
-    <div id="desc">ジェスチャーの説明</div>
-    <div id="time">制限時間： 120秒</div>
-    <main>
-        <div id="status"></div>
-        <div id="monitor">クリックしてスタート</div>
-    </main>
 </div>

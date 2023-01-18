@@ -33,13 +33,13 @@ export class GameScene extends SceneBase {
     }
 
     public render(): void {
-        this.timeRemaining = 120;    //制限時間の設定
+        this.timeRemaining = 3;    //制限時間の設定
         this.questionLength = this.questions.data.length;   //問題数を取得
+        this.kanji = this.questions.data[this.questionIndex].kanji;
 
         DOM.template("./templates/game.ejs", {
-            name: `Stage ${this.stage_id}`,
+            name: this.questions.name,
             score: this.score,
-            kanji: this.questions.data[this.questionIndex].kanji
         }).then((dom) => {
             this.replaceElement(dom);
 
@@ -54,6 +54,7 @@ export class GameScene extends SceneBase {
 
                 // タイマーの開始
                 this.timer = setInterval(this.ontimer.bind(this), 1000);
+                DOM.id("kanji").innerHTML = this.kanji;
 
                 // ゲームの実行
                 await gameManager.run();
@@ -72,19 +73,21 @@ export class GameScene extends SceneBase {
     private ontimer(): void {
         this.timeRemaining -= 1;
         DOM.id("time").innerHTML = `制限時間： ${this.timeRemaining}秒`;
-        DOM.id("status").innerHTML = '';
+        const status_img = DOM.id("status") as HTMLImageElement;
+        status_img.src = "";
 
         //残り時間がなくなる、または問題が最後まで進む
         if (this.timeRemaining === 0 || this.questionIndex === this.questionLength) {
             DOM.id("kanji").innerHTML = '終了';
 
             clearInterval(this.timer);
-            this.transitTo(new EndScene(this, this.stage_id, this.score, this.timeRemaining));
+            this.transitTo(new EndScene(this, this.stage_id, this.score, this.timeRemaining, this.questions.name));
         }
     }
 
     // UIの変更を行う
     public changeUI(resultState: boolean) {
+        const status_img = DOM.id("status") as HTMLImageElement;
 
         if(resultState) {
             console.log("正解です");
@@ -94,7 +97,7 @@ export class GameScene extends SceneBase {
             this.kanji = this.questions.data[this.questionIndex].kanji;
 
             //UIの更新
-            DOM.id("status").innerHTML = '○';
+            status_img.src = "/images/mark_maru.png";
             if (this.questionIndex !== this.questionLength) {
                 DOM.id("kanji").innerHTML = this.kanji;
             }
@@ -102,7 +105,7 @@ export class GameScene extends SceneBase {
         }
         else {
             console.log("不正解です");
-            DOM.id("status").innerHTML = "×";
+            status_img.src = "/images/mark_batsu.png";
         }
     }
 }

@@ -1,0 +1,209 @@
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* スタート画面 */
+.start {
+    margin: 0 auto;
+    /* margin-top: 20%; */
+    width: 100vw;
+    height: 100vh;
+    /* max-width: 500px; */
+    text-align: center;
+    background-image: url(./images/top.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #464646;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_box p {
+    display: block;
+}
+
+.load {
+    /* 画面中央に配置 */
+    position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* ヘッダー */
+/* header {
+    margin: 0;
+    display: flex;
+    grid-area: head;
+    border-bottom: solid black 1px;
+}
+
+header h1 {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+header .side_button {
+    z-index: 1;
+    margin-top: auto;
+    margin-right: 20px;
+    margin-bottom: auto;
+    height: 30%;
+} */
+
+/* ゲームシーン */
+#game {
+    display: grid;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    grid-template-areas: "head head"
+                        "score time"
+                        "kanji main"
+                        "desc main";
+    grid-template-rows: 100px 50px 1fr 1fr;
+    grid-template-columns: 30% 1fr;
+    gap: 10px;
+}
+
+#score {
+    grid-area: score;
+    margin: 5;
+    border: solid black 1px;
+    text-align: center;
+    display: grid;
+    place-items: center;
+}
+
+.question_field {
+    grid-area: kanji;
+    margin: 5;
+    border: solid black 1px;
+    position:relative;
+}
+
+.question_field p {
+    margin: 0;
+}
+
+#kanji {
+    font-size: 600%;
+    text-align: center;
+    margin: 5;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+#desc {
+    grid-area: desc;
+    border: solid black 1px;
+    margin: 5;
+    text-align: center;
+    display: grid;
+    place-items: center;
+}
+
+#game > main {
+    grid-area: main;
+    margin: 5;
+    border: solid black 1px;
+    position:relative;
+}
+
+#monitor {
+    text-align: center;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+#status {
+    font-size: 1500%;
+    color: red;
+    text-align: center;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+#time {
+    grid-area: time;
+    margin: 5;
+    border: solid black 1px;
+    text-align: center;
+    display: grid;
+    place-items: center;
+}
+
+/* エンドシーン */
+#end {
+    display: grid;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    grid-template-areas: "head"
+                        "result"
+                        "ranking";
+    grid-template-rows: 100px 1fr 30%;
+    gap: 10px;
+}
+
+#result {
+    grid-area: result;
+    text-align: center;
+}
+
+#ranking {
+    grid-area: ranking;
+    text-align: center;
+    border: solid black 1px;
+    margin: 20px;
+    overflow: scroll;
+}
+
+.result_score {
+    font-size: 300%;
+}
+
+/* 選択シーン */
+#selection {
+    margin: auto;
+    width: 100vw;
+    height: 100vw;
+}
+
+#stages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#stages button{
+    font-size: 200%;
+    margin: 50px;
+}
+
+#ranking_button {
+    text-align: center;
+    margin: 20px;
+    
+}
+
+/* ゲーム用 */
+#letter {
+    display: none;
+}
+
+video {
+    display: none;
+}

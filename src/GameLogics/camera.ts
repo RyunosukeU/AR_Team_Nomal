@@ -27,8 +27,8 @@ export class Camera {
             throw new Error(
                 'Browser API navigator.mediaDevices.getUserMedia not available');
         }
-        // const devices = await (await navigator.mediaDevices.enumerateDevices()).filter((device) => device.label === "FaceTime HDカメラ（内蔵） (05ac:8600)");
-        // console.log(devices);
+        const devices = await (await navigator.mediaDevices.enumerateDevices()).filter((device) => device.label === "FaceTime HDカメラ（内蔵） (05ac:8600)");
+        console.log(devices);
 
         const { targetFPS, sizeOption } = cameraParam;
         const videoConfig = {
@@ -40,7 +40,7 @@ export class Camera {
                 frameRate: {
                     ideal: targetFPS,
                 },
-                // deviceId: devices[0].deviceId,
+                deviceId: devices[0].deviceId,
             }
         };
 

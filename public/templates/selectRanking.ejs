@@ -1,15 +1,27 @@
 <div id="selection">
-  <header>
-      <h1>ランキング</h1>
-      <div id="back_to_select" class="side_button">戻る</div>
-  </header>
-  <select name="selectStage" id="selectStage">
-    <option value="1">stage1</option>
-    <option value="2">stage2</option>
-    <option value="3">stage3</option>
-    <option value="4">stage4</option>
-    <option value="5">stage5</option>
-    <option value="6">stage6</option>
+  <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+    <div class="container">
+      <a class="navbar-brand" href="#">ランキング</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a id="back_to_select" class="nav-link active" aria-current="page" href="#">TOPに戻る</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <select class="form-select" name="ステージを選択してください" id="selectStage">
+    <option value="1">小学1年生</option>
+    <option value="2">小学2年生</option>
+    <option value="3">小学3年生</option>
+    <option value="4">小学4年生</option>
+    <option value="5">小学5年生</option>
+    <option value="6">小学6年生</option>
   </select>
+
   <div id="ranking"></div>
 </div>

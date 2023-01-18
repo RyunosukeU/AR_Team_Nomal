@@ -2,6 +2,7 @@ import { string } from "@tensorflow/tfjs";
 import * as DOM from "../DOM";
 import { SceneBase } from "./SceneBase";
 import { SelectionScene } from "./SelectionScene";
+import { StartScene } from "./StartScene";
 
 // ステージデータ
 type ScoresByStage = {
@@ -62,10 +63,12 @@ export class RankingScene extends SceneBase {
             this.buildRanking(stageId)
             for (let i = 0; i < rankingByStage.length; i++) {
                 let child = DOM.make("div", [
-                    DOM.make("p", `第 ${i + 1}位`),
-                    DOM.make("p", `ユーザーネーム: ${rankingByStage[i].userName}`),
-                    DOM.make("p", `スコア: ${rankingByStage[i].score}`)
-                ])
+                    DOM.make("p", `第 ${i + 1}位`, {className: "ranking_place"}),
+                    DOM.make("div", [
+                        DOM.make("p", `ユーザーネーム: ${rankingByStage[i].userName}`, {className: "ranking_userName"}),
+                        DOM.make("p", `スコア: ${rankingByStage[i].score}`, {className: "ranking_score"})
+                    ], {className: "ranking_info"}),
+                ], {className: "ranking_cell"})
                 DOM.add(DOM.id("ranking"), child)
             }
         } else {
@@ -79,31 +82,18 @@ export class RankingScene extends SceneBase {
     }
 
     public render(): void {
-        const ranking = DOM.make("div",
-            [
-
-                DOM.make('header',
-                    [
-                        DOM.make("h1", "Ranking"),
-                        DOM.make('div', '戻る', {
-                            onclick: () => { this.transitTo(new SelectionScene) },
-                            className: "side_button"
-                        })
-                    ]),
-                DOM.make("div", "", { id: "ranking" }),
-            ], { className: "ranking" });
-
-
-
         DOM.template("./templates/selectRanking.ejs", {}).then((dom) => {
             this.replaceElement(dom);
             this.showRanking('1');
-            DOM.id("back_to_select").onclick = () => { this.transitTo(new SelectionScene()); };
+            DOM.id("back_to_select").onclick = () => { this.transitTo(new StartScene()); };
             let selectedStage = DOM.id("selectStage") as HTMLInputElement
             selectedStage.onchange = () => {
                 let stage_num = selectedStage.value
                 this.showRanking(stage_num);
             }
+
+            // ランキングがスクロールにならないように変更
+            DOM.id("ranking").style.overflow = "visible";
         })
 
         //this.replaceElement(ranking);

@@ -1,4 +1,4 @@
-import { Hand, Keypoint } from '@tensorflow-models/hand-pose-detection';
+import { Hand } from '@tensorflow-models/hand-pose-detection';
 import * as params from './params';
 
 const COLOR_PALETTE = [

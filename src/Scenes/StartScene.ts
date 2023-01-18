@@ -7,8 +7,8 @@ export class StartScene extends SceneBase {
       //HTMLを簡単に作成するためのヘルパ関数
       const start = DOM.make("div",
       [
-        DOM.make("h1", "ゲーム名"),
-        DOM.make("p", "click to start!",
+        DOM.make("h1", "ソラモジ"),
+        DOM.make("p", "ゲームを始める",
           { //id, className, onclickを指定可能
               onclick:()=>{
                   this.transitTo(new SelectionScene());                                

@@ -33,7 +33,7 @@ export class GameScene extends SceneBase {
     }
 
     public render(): void {
-        this.timeRemaining = 3;    //制限時間の設定
+        this.timeRemaining = 120;    //制限時間の設定
         this.questionLength = this.questions.data.length;   //問題数を取得
         this.kanji = this.questions.data[this.questionIndex].kanji;
 

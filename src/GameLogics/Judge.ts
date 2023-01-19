@@ -13,7 +13,6 @@ export class Judge {
         const warmupResult = this.model.predict(tf.zeros([1].concat(inputShape.slice(1)))) as tf.Tensor
         warmupResult.dataSync()
         warmupResult.dispose()
-        console.log(this.model);
         console.log("judge setup");
     }
 

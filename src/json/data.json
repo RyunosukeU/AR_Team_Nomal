@@ -3,32 +3,32 @@
         {
             "id": "1",
             "name": "小学1年生",
-            "data": [{"kanji": "私"}, {"kanji": "点"}, {"kanji": "朝"}, {"kanji": "帰"}]
+            "data": [{"kanji": "火"}, {"kanji": "王"}, {"kanji": "円"}, {"kanji": "校"}]
         },
         {
             "id": "2",
             "name": "小学2年生",
-            "data": [{"kanji": "私"}, {"kanji": "点"}, {"kanji": "朝"}, {"kanji": "帰"}]
+            "data": [{"kanji": "少"}, {"kanji": "体"}, {"kanji": "池"}, {"kanji": "岩"}]
         },
         {
             "id": "3",
             "name": "小学3年生",
-            "data": [{"kanji": "私"}, {"kanji": "点"}, {"kanji": "朝"}, {"kanji": "帰"}]
+            "data": [{"kanji": "仕"}, {"kanji": "泳"}, {"kanji": "柱"}, {"kanji": "炭"}]
         },
         {
             "id": "4",
             "name": "小学4年生",
-            "data" :[{"kanji": "handTrackData"}]
+            "data" :[{"kanji": "軍"}, {"kanji": "給"}, {"kanji": "散"}, {"kanji": "勇"}]
         },
         {
             "id": "5",
             "name": "小学5年生",
-            "data" :[{"kanji": "handTrackData"}]
+            "data" :[{"kanji": "政"}, {"kanji": "任"}, {"kanji": "粉"}, {"kanji": "豊"}]
         },
         {
             "id": "6",
             "name": "小学6年生",
-            "data" :[{"kanji": "handTrackData"}]
+            "data" :[{"kanji": "灰"}, {"kanji": "針"}, {"kanji": "傷"}, {"kanji": "脳"}]
         }
     ]
 }

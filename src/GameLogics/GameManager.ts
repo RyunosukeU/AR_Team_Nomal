@@ -22,7 +22,7 @@ export class GameManager {
     async build() {
         this.camera = await Camera.setupCamera(
             { 
-                targetFPS: 30, 
+                targetFPS: 60, 
                 sizeOption: { width: params.DEFAULT_CANVAS_WIDTH, height: params.DEFAULT_CANVAS_WIDTH } 
             }
         );

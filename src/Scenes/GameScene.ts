@@ -15,6 +15,7 @@ export class GameScene extends SceneBase {
     private stage_id: string;
     private score: number;
     public kanji: string;   // 他クラスで認識するための漢字
+    private pause_flg: boolean;
 
     constructor(
         stage_id: string
@@ -26,6 +27,7 @@ export class GameScene extends SceneBase {
         this.questions = QuestionData.questions[Number(this.stage_id) - 1]  //ステージid(番号)から問題を取得
         this.score = 0;
         this.kanji = this.questions.data[this.questionIndex].kanji;
+        this.pause_flg = false;
     }
 
     public init(): void {
@@ -56,13 +58,27 @@ export class GameScene extends SceneBase {
                 this.timer = setInterval(this.ontimer.bind(this), 1000);
                 DOM.id("kanji").innerHTML = this.kanji;
 
-                // ゲームの実行
-                await gameManager.run();
-
+                // ゲームの実行 終了時にボタンの有効化
+                await gameManager.run()
+                .then(()=>{
+                    // ポーズのボタン
+                    DOM.id("pause").onclick = () => {
+                        if(!this.pause_flg) {
+                            DOM.id("pause").innerHTML = "再開";
+                            clearInterval(this.timer);
+                            this.pause_flg = true;
+                        } else {
+                            DOM.id("pause").innerHTML = "ポーズ";
+                            this.timer = setInterval(this.ontimer.bind(this), 1000);
+                            this.pause_flg = false;
+                        }
+                    }
+                });
                 // onclickイベントを削除
                 DOM.id("monitor").onclick = () => {};
             };
-
+            
+            // 戻るボタン
             DOM.id("back").onclick = () => {
                 clearInterval(this.timer);
                 this.transitTo(new SelectionScene);

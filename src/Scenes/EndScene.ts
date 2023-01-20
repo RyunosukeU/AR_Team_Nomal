@@ -22,7 +22,7 @@ export class EndScene extends SceneBase {
     public render(): void {
         DOM.template("./templates/end.ejs", {
             stageName: this.stageName,
-            correct: this.correctAnswers,
+            correct: this.correctAnswers / 10,
             time: this.timeRemaining,
             score: this.score,
         }).then((dom) => {

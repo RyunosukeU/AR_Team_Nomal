@@ -12,7 +12,7 @@ The demonstration is in preparation.
 
 # Features
 
-"hoge"のセールスポイントや差別化などを説明する
+Soramoji uses machine-learning-based image recognition to draw lines on the screen by holding up a hand.
 
 # Requirement
 
@@ -23,14 +23,24 @@ The demonstration is in preparation.
 # Installation
 
 ```bash
+git clone https://github.com/keigo-u/Soramoji
+cd Soramoji
 npm install
 ```
 
 # Usage
 
+## startup
+
 ```bash
 npm start
 ```
+## How to play
+1. Select a cource.
+2. Click and Wait for the camera to be set up.
+3. Show your dominant hand on the screen.
+4. Draw a line by raising only the index finger.
+5. Thumbs up to judgment.
 
 # Author
 
